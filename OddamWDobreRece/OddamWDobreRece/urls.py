@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Oddam.views import LandingPage,Registration
+from Oddam.views import LandingPage,Registration,Login, MainUser, MainAdmin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view()),
     path('registration/', Registration.as_view()),
+    path('login/', Login.as_view()),
+    path('main/user', MainUser.as_view(), name='main_user'),
+    path('main/admin', MainAdmin.as_view(), name='main_admin'),
 ]
