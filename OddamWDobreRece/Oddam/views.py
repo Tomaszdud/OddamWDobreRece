@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView, CreateView,FormView
+from django.views.generic import TemplateView, CreateView,FormView,RedirectView
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistrationForm
 
@@ -45,3 +45,10 @@ class Login(FormView):
         else:
             return reverse('main_user')
 
+
+class LogoutView(RedirectView):
+    url = '/'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
