@@ -6,4 +6,13 @@ from django import forms
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username','password1','password2','first_name','last_name','email']
+        fields = ['password1','password2','email']
+
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget = forms.TextInput(attrs={'placeholder': 'Email',
+                                                            'name':'email'})
+        self.fields['password1'].widget = forms.PasswordInput(attrs={'placeholder': 'Hasło',
+                                                                    'name':'password1'})
+        self.fields['password2'].widget = forms.PasswordInput(attrs={'placeholder': 'Powtórz Hasło',
+                                                                    'name':'password2'})

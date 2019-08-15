@@ -9,7 +9,7 @@ from .forms import RegistrationForm
 
 
 class LandingPage(TemplateView):
-    template_name = 'landing_page.html'
+    template_name = 'index.html'
 
 
 class MainUser(LoginRequiredMixin,TemplateView):
@@ -22,7 +22,7 @@ class MainAdmin(TemplateView):
 
 
 class Registration(CreateView):
-    template_name = 'registration.html'
+    template_name = 'register.html'
     form_class = RegistrationForm
     success_url = '/login'
 
@@ -32,7 +32,7 @@ class Login(FormView):
     form_class = AuthenticationForm
 
     def form_valid(self, form):
-        username = form.cleaned_data['username']
+        username = form.cleaned_data['email']
         password = form.cleaned_data['password']
 
         user = authenticate(username=username, password=password)
