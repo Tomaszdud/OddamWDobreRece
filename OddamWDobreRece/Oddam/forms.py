@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from .models import MyUser
 
 
 class RegistrationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = MyUser
         fields = ['password1','password2','email']
 
     def __init__(self, *args, **kwargs):

@@ -26,6 +26,9 @@ class Registration(CreateView):
     form_class = RegistrationForm
     success_url = '/login'
 
+    def form_valid(self,form):
+        form.save()
+        return super(Registration,self).form_valid(form)
 
 class Login(FormView):
     template_name = 'login.html'

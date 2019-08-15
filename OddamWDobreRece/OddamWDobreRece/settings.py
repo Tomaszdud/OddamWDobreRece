@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 	'Oddam'
 ]
 
+AUTH_USER_MODEL = 'Oddam.MyUser'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
