@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+{% block content %}
+<body>
+    <ul>
+    {% for admin in object_list %}
+        <li><a href= {% url 'admin_edit' admin.pk %}>{{admin.username}}</a></li>
+    {% endfor %}
+    </ul>
+</body>
+{% endblock %}
+

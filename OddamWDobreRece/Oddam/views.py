@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView, CreateView,FormView,RedirectView
+from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistrationForm
+from .models import MyUser
 
 
 class LandingPage(TemplateView):
@@ -55,3 +56,15 @@ class LogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
+
+
+class AdminListView(ListView):
+    queryset = MyUser.objects.filter(is_superuser=True)
+    template_name = 'admin_list.html'
+
+
+class AdminEditView(UpdateView):
+    model = MyUser
+    template_name = 'admin_edit.html'
+    fields = ['first_name', 'last_name', 'email', 'username', 'is_active', 'is_staff']
+    success_url = reverse_lazy('admin_list')
