@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView
+from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import RegistrationForm
+from .forms import RegistrationForm, AdminCreateForm
 from .models import MyUser
 
 
@@ -67,4 +67,22 @@ class AdminEditView(UpdateView):
     model = MyUser
     template_name = 'admin_edit.html'
     fields = ['first_name', 'last_name', 'email', 'username', 'is_active', 'is_staff']
+    success_url = reverse_lazy('admin_list')
+
+
+class AdminCreateView(CreateView):
+    model = MyUser
+    form_class = AdminCreateForm
+    template_name = 'admin_create.html'
+    success_url = reverse_lazy('admin_list')
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['is_superuser'] = True
+        return initial
+
+
+class AdminDeleteView(DeleteView):
+    model = MyUser
+    template_name = 'admin_delete.html'
     success_url = reverse_lazy('admin_list')
