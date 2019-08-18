@@ -86,3 +86,10 @@ class AdminDeleteView(DeleteView):
     model = MyUser
     template_name = 'admin_delete.html'
     success_url = reverse_lazy('admin_list')
+
+
+class UserUpdateView(UpdateView):
+    model = MyUser
+    template_name = 'user_edit.html'
+    fields = ['first_name', 'last_name', 'email', 'username']
+    success_url = reverse_lazy('main_user')
