@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Oddam.views import (LandingPage,Registration,Login, MainUser, MainAdmin, LogoutView, AdminListView,\
-     AdminEditView, AdminCreateView, AdminDeleteView, UserUpdateView, UserChangePassword)
+     AdminEditView, AdminCreateView, AdminDeleteView, UserUpdateView, UserChangePassword, AdminInstitutionList,\
+         AdminInstitutionCreate,)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +32,7 @@ urlpatterns = [
     path('admin/create/', AdminCreateView.as_view(), name = 'admin_create'),
     path('admin/delete/<int:pk>/', AdminDeleteView.as_view(), name = 'admin_delete'),
     path('user/edit/<int:pk>/', UserUpdateView.as_view(), name = 'user_edit'),
-    path('user/change/password/', UserChangePassword.as_view(), name='user_password')
+    path('user/change/password/', UserChangePassword.as_view(), name='user_password'),
+    path('admin/institution/list/', AdminInstitutionList.as_view(), name='admin_institutions'),
+    path('admin/institution/create/', AdminInstitutionCreate.as_view(), name= 'institution_create'),
 ]
