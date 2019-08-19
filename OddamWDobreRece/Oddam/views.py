@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView
-from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import RegistrationForm, AdminCreateForm
 from .models import MyUser
 
@@ -86,3 +86,15 @@ class AdminDeleteView(DeleteView):
     model = MyUser
     template_name = 'admin_delete.html'
     success_url = reverse_lazy('admin_list')
+
+
+class UserUpdateView(UpdateView):
+    model = MyUser
+    template_name = 'user_edit.html'
+    fields = ['first_name', 'last_name', 'email', 'username']
+    success_url = reverse_lazy('main_user')
+
+
+class UserChangePassword(PasswordChangeView):
+    success_url = reverse_lazy('main_user')
+    template_name = 'user_password.html'

@@ -13,6 +13,9 @@
           <ul class="nav--actions">
             <li><a href={% url 'login' %} class="btn btn--small btn--without-border">Zaloguj</a></li>
             <li><a href={% url 'registration' %} class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            {% if request.user.is_authenticated %}
+            <li><a href={% url 'user_edit' user.pk %} class="btn btn--small btn--highlighted">Moje konto</a></li>
+            {% endif %}
           </ul>
   
           <ul>
@@ -26,6 +29,7 @@
             <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
           </ul>
         </nav>
+    </header>
 
 {% block content %} {% endblock %}
 
