@@ -123,3 +123,7 @@ class InstitutionDeleteView(DeleteView):
     model = Institution
     template_name = 'institution_delete.html'
     success_url = reverse_lazy('admin_institutions')
+
+
+class UserInstitutionList(AdminInstitutionList):
+    template_name = 'user_institutions.html'
