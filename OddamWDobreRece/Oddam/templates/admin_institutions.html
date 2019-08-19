@@ -3,7 +3,7 @@
 <a href={% url 'institution_create' %}><button type="button">Dodaj Instytucję</button></a>
 <ul>
     {% for institution in object_list %}
-        <li>{{institution.name}}</li>
+        <li><a href= {% url 'institution_edit' institution.pk %}>{{institution.name}}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

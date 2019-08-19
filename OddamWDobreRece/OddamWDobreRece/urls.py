@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from Oddam.views import (LandingPage,Registration,Login, MainUser, MainAdmin, LogoutView, AdminListView,\
      AdminEditView, AdminCreateView, AdminDeleteView, UserUpdateView, UserChangePassword, AdminInstitutionList,\
-         AdminInstitutionCreate,)
+         AdminInstitutionCreate,InstitutionEditView, InstitutionDeleteView,)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +35,6 @@ urlpatterns = [
     path('user/change/password/', UserChangePassword.as_view(), name='user_password'),
     path('admin/institution/list/', AdminInstitutionList.as_view(), name='admin_institutions'),
     path('admin/institution/create/', AdminInstitutionCreate.as_view(), name= 'institution_create'),
+    path('institution/edit/<int:pk>/', InstitutionEditView.as_view(), name= 'institution_edit'),
+    path('institution/delete/<int:pk>/', InstitutionDeleteView.as_view(), name= 'institution_delete'),
 ]

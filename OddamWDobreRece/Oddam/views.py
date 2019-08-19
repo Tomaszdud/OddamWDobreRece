@@ -110,3 +110,16 @@ class AdminInstitutionCreate(CreateView):
     fields = '__all__'
     template_name = 'institution_create.html'
     success_url = reverse_lazy('admin_institutions')
+
+
+class InstitutionEditView(UpdateView):
+    model = Institution
+    template_name = 'institution_edit.html'
+    fields = '__all__'
+    success_url = reverse_lazy('admin_institutions')
+
+
+class InstitutionDeleteView(DeleteView):
+    model = Institution
+    template_name = 'institution_delete.html'
+    success_url = reverse_lazy('admin_institutions')
