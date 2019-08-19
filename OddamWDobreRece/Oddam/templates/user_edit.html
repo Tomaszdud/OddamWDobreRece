@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<button type="button"><a href={% url 'user_password' %}>Zmień hasło</a></button>
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
