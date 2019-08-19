@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import RegistrationForm, AdminCreateForm
-from .models import MyUser
+from .models import MyUser, Institution
 
 
 class LandingPage(TemplateView):
@@ -98,3 +98,28 @@ class UserUpdateView(UpdateView):
 class UserChangePassword(PasswordChangeView):
     success_url = reverse_lazy('main_user')
     template_name = 'user_password.html'
+
+
+class AdminInstitutionList(ListView):
+    model = Institution
+    template_name = 'admin_institutions.html'
+
+
+class AdminInstitutionCreate(CreateView):
+    model = Institution
+    fields = '__all__'
+    template_name = 'institution_create.html'
+    success_url = reverse_lazy('admin_institutions')
+
+
+class InstitutionEditView(UpdateView):
+    model = Institution
+    template_name = 'institution_edit.html'
+    fields = '__all__'
+    success_url = reverse_lazy('admin_institutions')
+
+
+class InstitutionDeleteView(DeleteView):
+    model = Institution
+    template_name = 'institution_delete.html'
+    success_url = reverse_lazy('admin_institutions')
