@@ -61,7 +61,7 @@
   <div class="form--steps-container">
     <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-    <form>
+    <form method="post" action={% url 'gift_sent' %}>
       <!-- STEP 1: class .active is switching steps -->
       <div data-step="1" class="active">
         <h3>Zaznacz co chcesz oddać:</h3>
@@ -346,6 +346,7 @@
           Dziękujemy za przesłanie formularza Na maila prześlemy wszelkie
           informacje o odbiorze.
         </h2>
+        </div>
       </div>
     </form>
   </div>

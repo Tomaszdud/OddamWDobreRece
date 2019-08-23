@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import RegistrationForm, AdminCreateForm
-from .models import MyUser, Institution
+from .models import MyUser, Institution, Adress, Gift
 
 
 class LandingPage(TemplateView):
@@ -131,3 +131,27 @@ class UserInstitutionList(AdminInstitutionList):
 
 class FirstGiftView(TemplateView):
     template_name = 'form.html'
+
+
+class GiftSentView(FormView):
+    template_name = 'form.html'
+    success_url = reverse_lazy('first_gift')
+
+    def form_valid(self,form):
+        form.save()
+        gift = Gift.objects.create(type_of_thing=form.cleaned_data.get('produtcts[]'),
+                                    capacity=form.cleaned_data.get('bags'),
+                                    localization=form.cleaned_data.get('localization'),
+                                    for_who=form.cleaned_data.get('help[]'),
+                                    user=self.request.user.pk)
+
+        adress = Adress.objects.create(street=form.cleaned_data.get('adress'),
+                                        city=form.cleaned_data.get('city'),
+                                        post_code=form.cleaned_data.get('postcode'),
+                                        phone_number=form.cleaned_data.get('phone'),
+                                        date=form.cleaned_data.get('data'),
+                                        time=form.cleaned_data.get('time'),
+                                        info=form.cleaned_data.get('more_info'),
+                                        user=self.request.user.pk)
+
+        return super().form_valid(form)
