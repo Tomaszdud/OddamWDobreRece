@@ -127,3 +127,7 @@ class InstitutionDeleteView(DeleteView):
 
 class UserInstitutionList(AdminInstitutionList):
     template_name = 'user_institutions.html'
+
+
+class FirstGiftView(TemplateView):
+    template_name = 'form.html'
