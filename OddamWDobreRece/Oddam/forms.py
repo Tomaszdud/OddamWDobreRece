@@ -39,4 +39,3 @@ class AdminCreateForm(UserCreationForm):
                                                             'name':'first_name'})
         self.fields['last_name'].widget = forms.TextInput(attrs={'placeholder': 'Nazwisko',
                                                             'name':'last_name'})
-                                                            
