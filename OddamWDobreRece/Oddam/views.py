@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView
 from django.contrib.auth.views import PasswordChangeView
+from django.core.mail import send_mail
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
@@ -11,6 +12,23 @@ from .models import MyUser, Institution
 
 class LandingPage(TemplateView):
     template_name = 'index.html'
+
+
+class ContactView(RedirectView):
+
+    url = reverse_lazy('home')
+
+    def post(self, request):
+        
+        send_mail(
+            f"{request.POST.get('name')}, {request.POST.get('surname')}",
+            f"Wiadomość od {request.POST.get('name')}: {request.POST.get('message')}",
+            "",
+            [''],
+            fail_silently=False,)
+
+        return self.get(request)
+
 
 
 class MainUser(LoginRequiredMixin,TemplateView):

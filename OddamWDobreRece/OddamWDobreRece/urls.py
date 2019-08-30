@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from Oddam.views import (LandingPage,Registration,Login, MainUser, MainAdmin, LogoutView, AdminListView,\
      AdminEditView, AdminCreateView, AdminDeleteView, UserUpdateView, UserChangePassword, AdminInstitutionList,\
-         AdminInstitutionCreate,InstitutionEditView, InstitutionDeleteView,)
+         AdminInstitutionCreate,InstitutionEditView, InstitutionDeleteView,ContactView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,4 +37,5 @@ urlpatterns = [
     path('admin/institution/create/', AdminInstitutionCreate.as_view(), name= 'institution_create'),
     path('institution/edit/<int:pk>/', InstitutionEditView.as_view(), name= 'institution_edit'),
     path('institution/delete/<int:pk>/', InstitutionDeleteView.as_view(), name= 'institution_delete'),
+    path('redirect/contact', ContactView.as_view(), name='contact'),
 ]

@@ -10,3 +10,4 @@ class MyUser(AbstractUser):
 
 class Institution(models.Model):
     name = models.CharField(max_length=100)
+
