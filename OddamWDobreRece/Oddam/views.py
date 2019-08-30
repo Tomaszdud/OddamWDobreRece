@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView
+from django.views.generic import (TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView,
+View)
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import RegistrationForm, AdminCreateForm
-from .models import MyUser, Institution, Adress, Gift
+from .models import MyUser, Institution, Gift
 
 
 class LandingPage(TemplateView):
@@ -129,29 +130,23 @@ class UserInstitutionList(AdminInstitutionList):
     template_name = 'user_institutions.html'
 
 
-class FirstGiftView(TemplateView):
-    template_name = 'form.html'
+class GiftSentView(View):
+    def get(self,request):
+        return render(request,'form.html')
 
 
-class GiftSentView(FormView):
-    template_name = 'form.html'
-    success_url = reverse_lazy('first_gift')
+    def post(self,request):
+        gift = Gift.objects.create(type_of_thing=request.POST.get('products[]'),
+                                    capacity=request.POST.get('bags'),
+                                    localization=request.POST.get('localization'),
+                                    for_who=request.POST.get('help[]'),
+                                    street=request.POST.get('address'),
+                                    city=request.POST.get('city'),
+                                    post_code=request.POST.get('postcode'),
+                                    phone_number=request.POST.get('phone'),
+                                    date=request.POST.get('data'),
+                                    time=request.POST.get('time'),
+                                    info=request.POST.get('more_info'),
+                                    user=MyUser.objects.get(pk=request.user.pk))
 
-    def form_valid(self,form):
-        form.save()
-        gift = Gift.objects.create(type_of_thing=form.cleaned_data.get('produtcts[]'),
-                                    capacity=form.cleaned_data.get('bags'),
-                                    localization=form.cleaned_data.get('localization'),
-                                    for_who=form.cleaned_data.get('help[]'),
-                                    user=self.request.user.pk)
-
-        adress = Adress.objects.create(street=form.cleaned_data.get('adress'),
-                                        city=form.cleaned_data.get('city'),
-                                        post_code=form.cleaned_data.get('postcode'),
-                                        phone_number=form.cleaned_data.get('phone'),
-                                        date=form.cleaned_data.get('data'),
-                                        time=form.cleaned_data.get('time'),
-                                        info=form.cleaned_data.get('more_info'),
-                                        user=self.request.user.pk)
-
-        return super().form_valid(form)
+        return redirect(reverse_lazy('gift_sent'))

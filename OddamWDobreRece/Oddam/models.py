@@ -36,10 +36,6 @@ class Gift(models.Model):
     capacity = models.DecimalField(max_digits=3, decimal_places=2)
     localization = models.CharField(max_length=7,choices=LOCALIZATION_CHOICES)
     for_who = models.CharField(max_length=8, choices=FOR_CHOICES)
-    user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
-
-
-class Adress(models.Model):
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     post_code = models.TextField(max_length=7)
