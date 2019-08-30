@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView
+from django.views.generic import (TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView,
+View)
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import RegistrationForm, AdminCreateForm
-from .models import MyUser, Institution
+from .models import MyUser, Institution, Gift
 
 
 class LandingPage(TemplateView):
@@ -123,3 +124,29 @@ class InstitutionDeleteView(DeleteView):
     model = Institution
     template_name = 'institution_delete.html'
     success_url = reverse_lazy('admin_institutions')
+
+
+class UserInstitutionList(AdminInstitutionList):
+    template_name = 'user_institutions.html'
+
+
+class GiftSentView(View):
+    def get(self,request):
+        return render(request,'form.html')
+
+
+    def post(self,request):
+        gift = Gift.objects.create(type_of_thing=request.POST.get('products[]'),
+                                    capacity=request.POST.get('bags'),
+                                    localization=request.POST.get('localization'),
+                                    for_who=request.POST.get('help[]'),
+                                    street=request.POST.get('address'),
+                                    city=request.POST.get('city'),
+                                    post_code=request.POST.get('postcode'),
+                                    phone_number=request.POST.get('phone'),
+                                    date=request.POST.get('data'),
+                                    time=request.POST.get('time'),
+                                    info=request.POST.get('more_info'),
+                                    user=MyUser.objects.get(pk=request.user.pk))
+
+        return redirect(reverse_lazy('gift_sent'))
