@@ -8,16 +8,32 @@
     {% load static %}
     <link rel="stylesheet" href= "{% static '/css/style.css' %}" />
   </head>
+  {% if request.user.is_authenticated %}
+  <header class="header--form-page">
+      <nav class="container container--70">
+        <ul class="nav--actions">
+          <li class="logged-user">
+            {% if request.user.first_name %}
+            Witaj {{user.first_name}}
+            {% else %}
+            Witaj {{user.email}}
+            {% endif %}
+            <ul class="dropdown">
+              <li><a href={% url 'user_edit' user.pk %}>Profil</a></li>
+              <li><a href={% url 'user_edit' user.pk %}>Ustawienia</a></li>
+              <li><a href="#">Moje zbiórki</a></li>
+              <li><a href={% url 'logout' %}>Wyloguj</a></li>
+            </ul>
+          </li>
+        </ul>
+  {% else %}
   <header>
       <nav class="container container--70">
           <ul class="nav--actions">
             <li><a href={% url 'login' %} class="btn btn--small btn--without-border">Zaloguj</a></li>
             <li><a href={% url 'registration' %} class="btn btn--small btn--highlighted">Załóż konto</a></li>
-            {% if request.user.is_authenticated %}
-            <li><a href={% url 'user_edit' user.pk %} class="btn btn--small btn--highlighted">Moje konto</a></li>
-            {% endif %}
           </ul>
-  
+  {% endif %}
           <ul>
             <li><a href={% url 'home' %} class="btn btn--without-border active">Start</a></li>
             <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
@@ -28,14 +44,13 @@
             {% if request.user.is_superuser %}
             <li><a href={% url 'admin_institutions' %} class="btn btn--without-border">Fundacje i organizacje</a></li>
             {% else %}
-            <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
+            <li><a href={% url 'user_institutions' %} class="btn btn--without-border">Fundacje i organizacje</a></li>
             {% endif %}
             <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
           </ul>
+          {% block content %} {% endblock %}
         </nav>
     </header>
-
-{% block content %} {% endblock %}
 
     <footer>
         <div class="contact">
@@ -64,5 +79,5 @@
         </div>
       </footer>
 
-    <script src="../js/app.js"></script>
+    <script src={% static "js/app.js" %}></script>
 </html>
