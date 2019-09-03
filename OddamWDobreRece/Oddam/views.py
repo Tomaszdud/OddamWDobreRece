@@ -4,6 +4,7 @@ View)
 from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -39,6 +40,10 @@ class MainUser(LoginRequiredMixin,TemplateView):
 
 class MainAdmin(TemplateView):
     template_name = 'main_page_admin.html'
+
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class AboutView(TemplateView):
@@ -77,7 +82,8 @@ class Login(FormView):
             return reverse('main_user')
 
 
-class LogoutView(RedirectView):
+class LogoutView(LoginRequiredMixin ,RedirectView):
+    login_url = reverse_lazy('login')
     url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
@@ -89,12 +95,20 @@ class AdminListView(ListView):
     queryset = MyUser.objects.filter(is_superuser=True)
     template_name = 'admin_list.html'
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class AdminEditView(UpdateView):
     model = MyUser
     template_name = 'admin_edit.html'
     fields = ['first_name', 'last_name', 'email', 'username', 'is_active', 'is_staff']
     success_url = reverse_lazy('admin_list')
+
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class AdminCreateView(CreateView):
@@ -108,21 +122,29 @@ class AdminCreateView(CreateView):
         initial['is_superuser'] = True
         return initial
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class AdminDeleteView(DeleteView):
     model = MyUser
     template_name = 'admin_delete.html'
     success_url = reverse_lazy('admin_list')
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
-class UserUpdateView(UpdateView):
+
+class UserUpdateView(LoginRequiredMixin,UpdateView):
     model = MyUser
     template_name = 'user_edit.html'
     fields = ['first_name', 'last_name', 'email', 'username']
     success_url = reverse_lazy('main_user')
 
 
-class UserChangePassword(PasswordChangeView):
+class UserChangePassword(LoginRequiredMixin,PasswordChangeView):
     success_url = reverse_lazy('main_user')
     template_name = 'user_password.html'
 
@@ -131,12 +153,20 @@ class AdminInstitutionList(ListView):
     model = Institution
     template_name = 'admin_institutions.html'
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class AdminInstitutionCreate(CreateView):
     model = Institution
     fields = '__all__'
     template_name = 'institution_create.html'
     success_url = reverse_lazy('admin_institutions')
+
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class InstitutionEditView(UpdateView):
@@ -145,18 +175,26 @@ class InstitutionEditView(UpdateView):
     fields = '__all__'
     success_url = reverse_lazy('admin_institutions')
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class InstitutionDeleteView(DeleteView):
     model = Institution
     template_name = 'institution_delete.html'
     success_url = reverse_lazy('admin_institutions')
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
-class UserInstitutionList(AdminInstitutionList):
+
+class UserInstitutionList(LoginRequiredMixin,AdminInstitutionList):
     template_name = 'user_institutions.html'
 
 
-class GiftSentView(View):
+class GiftSentView(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,'form.html')
 
