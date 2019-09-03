@@ -41,6 +41,14 @@ class MainAdmin(TemplateView):
     template_name = 'main_page_admin.html'
 
 
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+
+class HowItWorksView(TemplateView):
+    template_name = 'how_it_works.html'
+
+
 class Registration(CreateView):
     template_name = 'register.html'
     form_class = RegistrationForm
