@@ -42,4 +42,4 @@ urlpatterns = [
     path('redirect/contact', ContactView.as_view(), name='contact'),
     path('user/institution/list', UserInstitutionList.as_view(), name= 'user_institutions'),
     path('gift/sent', GiftSentView.as_view(), name= 'gift_sent'),
-
+]
