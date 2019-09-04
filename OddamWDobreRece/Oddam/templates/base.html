@@ -19,7 +19,7 @@
             Witaj {{user.email}}
             {% endif %}
             <ul class="dropdown">
-              <li><a href={% url 'user_edit' user.pk %}>Profil</a></li>
+              <li><a href={% url 'user_details' user.pk %}>Profil</a></li>
               <li><a href={% url 'user_edit' user.pk %}>Ustawienia</a></li>
               <li><a href="#">Moje zbiórki</a></li>
               <li><a href={% url 'logout' %}>Wyloguj</a></li>
