@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href={% url 'first_gift' %}><button type="button">Przekaż dary</button></a>
+<a href={% url 'gift_sent' %}><button type="button">Przekaż dary</button></a>
 <ul>
     {% for institution in object_list %}
         <li>{{institution.name}}</li>
