@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic import (TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView,
-View)
+View, DetailView)
 from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail
 from django.urls import reverse, reverse_lazy
@@ -110,7 +110,7 @@ class AdminCreateView(UserPassesTestMixin,CreateView):
 
 
 class AdminDeleteView(UserPassesTestMixin,DeleteView):
-    login_url=reverse_lazy('login')
+    login_url = reverse_lazy('login')
     model = MyUser
     template_name = 'admin_delete.html'
     success_url = reverse_lazy('admin_list')
@@ -119,15 +119,23 @@ class AdminDeleteView(UserPassesTestMixin,DeleteView):
         return self.request.user.is_superuser
 
 
+class UserDetailsView(LoginRequiredMixin,DetailView):
+    login_url = reverse_lazy('login')
+    model = MyUser
+    template_name = 'user_details.html'
+
+
 class UserUpdateView(LoginRequiredMixin,UpdateView):
     model = MyUser
     template_name = 'user_edit.html'
     fields = ['first_name', 'last_name', 'email', 'username']
-    success_url = reverse_lazy('main_user')
+
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk':self.request.user.pk})
 
 
 class UserChangePassword(LoginRequiredMixin,PasswordChangeView):
-    success_url = reverse_lazy('main_user')
+    success_url = reverse_lazy('home')
     template_name = 'user_password.html'
 
 
