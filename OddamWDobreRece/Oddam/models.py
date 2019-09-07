@@ -29,6 +29,7 @@ class MyUser(AbstractUser):
 class Institution(models.Model):
     name = models.CharField(max_length=100)
     localization = models.CharField(max_length=7,choices=LOCALIZATION_CHOICES)
+    description = models.TextField(blank=True,null=True)
 
 
 class Gift(models.Model):
@@ -36,6 +37,7 @@ class Gift(models.Model):
     capacity = models.DecimalField(max_digits=3, decimal_places=2)
     localization = models.CharField(max_length=7,choices=LOCALIZATION_CHOICES)
     for_who = models.CharField(max_length=8, choices=FOR_CHOICES)
+    taken = models.BooleanField(blank=True,null=True)
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     post_code = models.TextField(max_length=7)
@@ -44,3 +46,4 @@ class Gift(models.Model):
     time = models.TimeField()
     info = models.TextField()
     user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
+    institution = models.ForeignKey(Institution, on_delete=models.DO_NOTHING)
