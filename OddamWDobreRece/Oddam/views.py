@@ -209,9 +209,25 @@ class GiftSentView(LoginRequiredMixin,View):
 
 
 class MyGiftView(LoginRequiredMixin,ListView):
+    login_url = reverse_lazy('login')
     template_name = 'my_gift.html'
 
     def get_queryset(self):
         queryset = Gift.objects.filter(user=self.request.user.pk)
         return queryset
+
+
+class MyGiftDetailsView(LoginRequiredMixin,DetailView):
+    login_url = reverse_lazy('login')
+    template_name = 'my_gift_details.html'
+    model = Gift
+
+class MyGiftUpdateView(LoginRequiredMixin,UpdateView):
+    login_url = reverse_lazy('login')
+    template_name = 'my_gift_taken.html'
+    model = Gift
+    fields = ['taken']
+
+    def get_success_url(self):
+        return reverse_lazy('my_gift_details', kwargs={'pk':self.object.pk})
 

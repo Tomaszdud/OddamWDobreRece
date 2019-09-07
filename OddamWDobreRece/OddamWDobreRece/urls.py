@@ -18,7 +18,8 @@ from django.urls import path
 from Oddam.views import (LandingPage,Registration,Login, LogoutView, AdminListView,\
      AdminEditView, AdminCreateView, AdminDeleteView, UserUpdateView, UserChangePassword, AdminInstitutionList,\
          AdminInstitutionCreate,InstitutionEditView, InstitutionDeleteView, UserInstitutionList,\
-             GiftSentView,ContactView, AboutView,HowItWorksView,UserDetailsView, MyGiftView,)
+             GiftSentView,ContactView, AboutView,HowItWorksView,UserDetailsView, MyGiftView,\
+                 MyGiftDetailsView,MyGiftUpdateView,)
 
              
 urlpatterns = [
@@ -44,4 +45,6 @@ urlpatterns = [
     path('user/institution/list/', UserInstitutionList.as_view(), name= 'user_institutions'),
     path('gift/sent/', GiftSentView.as_view(), name='gift_sent'),
     path('my/gift/', MyGiftView.as_view(), name='my_gift'),
+    path('my/gift/details/<int:pk>', MyGiftDetailsView.as_view(), name='my_gift_details'),
+    path('my/gift/taken/<int:pk>',MyGiftUpdateView.as_view(), name='my_gift_taken'),
 ]

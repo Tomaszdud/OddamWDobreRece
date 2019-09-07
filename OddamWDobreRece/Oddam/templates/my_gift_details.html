@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href={% url 'my_gift_taken' object.pk %}><button type="button">ODEBRANO</button></a>
+<p>Rodzaj: {{object.type_of_thing}}</p>
+{% endblock %}

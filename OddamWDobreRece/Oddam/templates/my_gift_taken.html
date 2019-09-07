@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST">
+{% csrf_token %}
+<p>Czy kurier odebrał Twój dar?</p>
+{{form.taken}}
+<input type="submit" value="Odebrano">
+</form>
+{% endblock %}
