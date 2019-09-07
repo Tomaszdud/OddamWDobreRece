@@ -178,7 +178,8 @@ class InstitutionDeleteView(UserPassesTestMixin,DeleteView):
         return self.request.user.is_superuser
 
 
-class UserInstitutionList(LoginRequiredMixin,AdminInstitutionList):
+class UserInstitutionList(LoginRequiredMixin,ListView):
+    model = Institution
     template_name = 'user_institutions.html'
 
 
@@ -186,7 +187,6 @@ class GiftSentView(LoginRequiredMixin,View):
     login_url = reverse_lazy('login')
     def get(self,request):
         return render(request,'form.html')
-
 
     def post(self,request):
         gift = Gift.objects.create(type_of_thing=request.POST.get('products[]'),
