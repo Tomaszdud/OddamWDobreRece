@@ -123,6 +123,11 @@ class UserDetailsView(LoginRequiredMixin,DetailView):
     login_url = reverse_lazy('login')
     model = MyUser
     template_name = 'user_details.html'
+        
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or request.user.pk != kwargs['pk']:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UserUpdateView(LoginRequiredMixin,UpdateView):
@@ -132,6 +137,12 @@ class UserUpdateView(LoginRequiredMixin,UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('user_details', kwargs={'pk':self.request.user.pk})
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or request.user.pk != kwargs['pk']:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 class UserChangePassword(LoginRequiredMixin,PasswordChangeView):
@@ -221,6 +232,11 @@ class MyGiftDetailsView(LoginRequiredMixin,DetailView):
     login_url = reverse_lazy('login')
     template_name = 'my_gift_details.html'
     model = Gift
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or self.model.objects.get(pk=kwargs['pk']).user.pk != self.request.user.pk:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 class MyGiftUpdateView(LoginRequiredMixin,UpdateView):
     login_url = reverse_lazy('login')
@@ -230,4 +246,10 @@ class MyGiftUpdateView(LoginRequiredMixin,UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('my_gift_details', kwargs={'pk':self.object.pk})
+
+        
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or self.model.objects.get(pk=kwargs['pk']).user.pk != self.request.user.pk:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
