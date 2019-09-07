@@ -20,7 +20,7 @@ TYPE_CHOICES = (('clothes-to-use','clothes-to-use'),
 
 
 class MyUser(AbstractUser):
-    username = models.CharField(max_length=30, unique=False)
+    username = models.CharField(max_length=30, unique=False,blank=True)
     email = models.EmailField(max_length=255, unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
