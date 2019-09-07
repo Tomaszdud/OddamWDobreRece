@@ -186,9 +186,11 @@ class UserInstitutionList(LoginRequiredMixin,ListView):
 class GiftSentView(LoginRequiredMixin,View):
     login_url = reverse_lazy('login')
     def get(self,request):
-        return render(request,'form.html')
+        ctx = {'institutions':Institution.objects.all()}
+        return render(request,'form.html',ctx)
 
     def post(self,request):
+        print(request.POST.get('organization'))
         gift = Gift.objects.create(type_of_thing=request.POST.get('products[]'),
                                     capacity=request.POST.get('bags'),
                                     localization=request.POST.get('localization'),
@@ -200,6 +202,16 @@ class GiftSentView(LoginRequiredMixin,View):
                                     date=request.POST.get('data'),
                                     time=request.POST.get('time'),
                                     info=request.POST.get('more_info'),
-                                    user=MyUser.objects.get(pk=request.user.pk))
+                                    user=MyUser.objects.get(pk=request.user.pk),
+                                    institution=Institution.objects.get(name=request.POST.get('organization')))
 
         return redirect(reverse_lazy('gift_sent'))
+
+
+class MyGiftView(LoginRequiredMixin,ListView):
+    template_name = 'my_gift.html'
+
+    def get_queryset(self):
+        queryset = Gift.objects.filter(user=self.request.user.pk)
+        return queryset
+

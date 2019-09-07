@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href={% url 'gift_sent' %}><button type="button">Przekaż dary</button></a>
+<ul>
+    {% for gift in object_list %}
+        <li>{{gift.type_of_thing}}({{gift.institution.name}})</li>
+    {% endfor %}
+</ul>
+{% endblock %}
