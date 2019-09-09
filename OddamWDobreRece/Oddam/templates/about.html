@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>O NAS:</h1>
-<p>naszym celem jest stworzenie miejsca, w którym każdy będzie mógł oddać niepotrzebne rzeczy zaufanym instytucjom.</p>
+<div class="slogan container">
+    <div class="slogan--item">
+        <h1>O NAS</h1>
+        <h2>Naszym celem jest stworzenie miejsca, w którym każdy będzie mógł oddać niepotrzebne rzeczy zaufanym instytucjom.
+        </h2>
+        <h2><a href={% url 'gift_sent' %} class="btn btn--large">Oddaj rzeczy</a></h2>
+    </div>
+</div>
 {% endblock %}
