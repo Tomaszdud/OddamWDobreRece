@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Imię: {{object.first_name}}</p>
-<p>Nazwisko: {{object.last_name}}</p>
-<p>Nazwa użytkownika: {{object.username}}</p>
-<p>Email: {{object.email}}</p>
-
+<div class="slogan container--70">
+    <div class="slogan--item">
+        <h2>Imię: {{object.first_name}}</h2>
+        <h2>Nazwisko: {{object.last_name}}</h2>
+        <h2>Nazwa użytkownika: {{object.username}}</h2>
+        <h2>Email: {{object.email}}</h2>
+    </div>
+</div>
 {% endblock %}
