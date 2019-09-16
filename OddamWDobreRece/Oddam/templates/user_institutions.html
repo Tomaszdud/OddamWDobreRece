@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href={% url 'gift_sent' %}><button type="button">Przekaż dary</button></a>
-<ul>
+<h1><a href={% url 'gift_sent' %} class="btn">Przekaż Dary</a></h1></br>
+<h2>Lista Instytucji:</h2>
+<div class="list-group">
     {% for institution in object_list %}
-        <li>{{institution.name}}</li>
+    <h1><a href="#" class="list-group-item list-group-item-action">{{institution.name}}</a></h1>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
