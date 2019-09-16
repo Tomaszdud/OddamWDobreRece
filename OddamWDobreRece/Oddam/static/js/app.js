@@ -234,7 +234,17 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // TODO: get data from inputs and show them in summary
+      
+
+      if (this.currentStep == 6){
+        document.getElementById("street-sum").innerText = document.getElementById("address").value
+        document.getElementById("city-sum").innerText = document.getElementById("city").value
+        document.getElementById("postcode-sum").innerText = document.getElementById("postcode").value
+        document.getElementById("phone-sum").innerText = document.getElementById("phone").value
+        document.getElementById("date-sum").innerText = document.getElementById("date").value
+        document.getElementById("time-sum").innerText = document.getElementById("time").value
+        document.getElementById("more-info-sum").innerText = document.getElementById("more-info").value
+      }
     }
 
     /**
