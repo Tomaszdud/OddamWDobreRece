@@ -233,10 +233,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
+    
 
-      
-
-      if (this.currentStep == 6){
+      if (this.currentStep == 5){
         document.getElementById("street-sum").innerText = document.getElementById("address").value
         document.getElementById("city-sum").innerText = document.getElementById("city").value
         document.getElementById("postcode-sum").innerText = document.getElementById("postcode").value

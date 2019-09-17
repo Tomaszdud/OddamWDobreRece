@@ -35,8 +35,6 @@ class Institution(models.Model):
 class Gift(models.Model):
     type_of_thing = models.CharField(max_length=15, choices=TYPE_CHOICES)
     capacity = models.DecimalField(max_digits=3, decimal_places=2)
-    localization = models.CharField(max_length=7,choices=LOCALIZATION_CHOICES)
-    for_who = models.CharField(max_length=8, choices=FOR_CHOICES)
     taken = models.BooleanField(blank=True,null=True)
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
