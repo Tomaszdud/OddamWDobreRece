@@ -1,16 +1,18 @@
 from django.shortcuts import render,redirect
 from django.views.generic import (TemplateView, CreateView,FormView,RedirectView, ListView, UpdateView, DeleteView,
 View, DetailView)
+import json
 from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail
 from django.urls import reverse, reverse_lazy
+from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import RegistrationForm, AdminCreateForm
 from .models import MyUser, Institution, Gift
-
+from django.http import JsonResponse,Http404,HttpResponse
 
 class LandingPage(TemplateView):
     template_name = 'index.html'
@@ -197,15 +199,13 @@ class UserInstitutionList(LoginRequiredMixin,ListView):
 class GiftSentView(LoginRequiredMixin,View):
     login_url = reverse_lazy('login')
     def get(self,request):
-        ctx = {'institutions':Institution.objects.all()}
+        ctx={'institutions':Institution.objects.all()}
         return render(request,'form.html',ctx)
 
     def post(self,request):
-        print(request.POST.get('organization'))
+        # try:
         gift = Gift.objects.create(type_of_thing=request.POST.get('products[]'),
                                     capacity=request.POST.get('bags'),
-                                    localization=request.POST.get('localization'),
-                                    for_who=request.POST.get('help[]'),
                                     street=request.POST.get('address'),
                                     city=request.POST.get('city'),
                                     post_code=request.POST.get('postcode'),
@@ -215,7 +215,8 @@ class GiftSentView(LoginRequiredMixin,View):
                                     info=request.POST.get('more_info'),
                                     user=MyUser.objects.get(pk=request.user.pk),
                                     institution=Institution.objects.get(name=request.POST.get('organization')))
-
+        # except:
+        #     return HttpResponse("BŁĄD:Nie wybrano instytucji!")
         return redirect(reverse_lazy('gift_sent'))
 
 
